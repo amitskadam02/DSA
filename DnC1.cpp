@@ -1,109 +1,113 @@
 #include <iostream>
 using namespace std;
 
+void merge(int arr[], int s, int e) {
 
-void merge(int arr[], int s, int e)
-{
-  int mid = s+(e-s)/2;
-  int lengthLeft = mid -s + 1;
-  int lengthRight = e-mid;
+	int mid = (s+e)/2;
 
-  // createa rray left and right
-  int *left = new int[lengthLeft];
-  int *right = new int[lengthRight];
+	int lenLeft = mid - s + 1;
+	int lenRight = e - mid;
 
-  // copy arra from original array to left array
-  // staring index in left array in original array
-  int k = s;
-  for (int i = 0; i<lengthLeft; i++)
-  {
-    left[i] = arr[k];
-    k++;
-  }
+	//create left and right array
+	int *left = new int[lenLeft];
+	int *right = new int[lenRight];
 
-  // copy array from original array to right array
-  // staring index in right array in original array
-  int k = mid+1;
-  for (int i = 0; i<lengthRight; i++)
-  {
-    left[i] = arr[k];
-    k++;
-  }
+	//copy values from original array to left array
+	int k = s;
+	//k -> starting index of left array values in original arrya
+	for(int i=0; i<lenLeft; i++) {
+		left[i] = arr[k];
+		k++;
+	}
 
-  // Actual merege logic here
-  // left array is sorted
-  // right array is sorted
-  int leftIndex = 0;
-  int rightIndex = 0;
+	//copy values from original array to right array
+	k = mid+1;
+	for(int i=0; i<lenRight; i++) {
+		right[i] = arr[k];
+		k++;
+	}
 
-  // here I will make misrake
-  int mainArrayIndex = s;
-  while(leftIndex <lengthLeft && rightIndex <lengthRight )
-  {
-    if(left[leftIndex] < right[rightIndex])
-    {
-      arr[mainArrayIndex] = left[leftIndex];
-      mainArrayIndex++;
-      leftIndex++;
-    }
-    else
-    {
-      arr[mainArrayIndex] = right[rightIndex];
-      mainArrayIndex++;
-      rightIndex++;
-    }
-  }
+	//actual merge logic here
+	//left array is already sorted
+	//right array is already sorted
+	int leftIndex = 0;
+	int rightIndex = 0;
+	//yahi pr galti karte h log
+	int mainArrayIndex = s;
 
-  // two more cases for merge two sorted array
-  // case1: left array exhaust but not right array
-  while(rightIndex < lengthRight)
-  {
-    arr[mainArrayIndex] = right[rightIndex];
-    mainArrayIndex++;
-    rightIndex++;
-  }
-  // case2: right array exhaust but not left array
-  while(leftIndex < lengthLeft)
-  {
-    arr[mainArrayIndex] = left[leftIndex];
-    mainArrayIndex++;
-    leftIndex++;
-  }
+	while(leftIndex < lenLeft &&  rightIndex < lenRight) {
+		
+		if(left[leftIndex] < right[rightIndex] ) {
+			arr[mainArrayIndex] =  left[leftIndex];
+			mainArrayIndex++;
+			leftIndex++;
+		}
+		else {
+			arr[mainArrayIndex] =  right[rightIndex];
+			mainArrayIndex++;
+			rightIndex++;
+		}
+	}
 
+
+	//2 more cases
+
+	//1 case -> left array exhaust but right array me element abhi bhi bache hai
+	while(rightIndex < lenRight) {
+		arr[mainArrayIndex] =  right[rightIndex];
+		mainArrayIndex++;
+		rightIndex++;
+	}
+	
+
+	//2nd case -> rigght array exhaust but left array me element abhi bhi bache hai
+	while(leftIndex < lenLeft) {
+		arr[mainArrayIndex] =  left[leftIndex];
+		mainArrayIndex++;
+		leftIndex++;
+	}
+	//1 more step pending
+	delete[] left;
+	delete[] right;
 }
-void mergeSort(int arr[], int s, int e)
-{
-  // base case
-  if(s>=e)
-  {
-    return;
-  }
 
-  int mid = s+(s-e)/2;
-  // resurion call for left array : s-> mid:left array
-  mergeSort(arr[], s, mid);
-  // resurion call for right array : mid+1->e: right   
-  mergeSort(arr[], mid+1, e);
-
-  // merge two sorted array
-  merge(arr[], s, e);
-
+void mergeSort(int arr[], int s, int e) {
+	//base case
+	if(s >= e) {
+		return;
+	}
+	//break
+	int mid = (s+e)/2;
+	//recusive call for left array
+	mergeSort(arr,s, mid);
+	//recusive call for right array
+	mergeSort(arr, mid+1, e);
+	//merge 2 sorted arrays
+	merge(arr, s, e);
 }
-int main()
-{
-  int arr[] = {1,50,80,32,45,62,75};
-  int size = 7;
-  int s = 0;
-  int e = size-1
 
-  cout<<"Before merge sort:"<<endl;
-  for(int i=0; i<size; i++)
-  {
-    cout<<arr[i]<<" ";
-  }
-  cout<<endl;
-  mergeSort(arr, s, e);
-  cout<<"After merge sort:"<<endl;
+int main() {
 
-  return 0;
+	int arr[] = {2,1,6,9,4,5};
+	int size = 6;
+	int s = 0;
+	int e = size - 1;
+
+	cout << "Before merge sort: " << endl;
+	for(int i=0; i<size; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+	
+	mergeSort(arr,s,e);
+
+	cout << "After merge sort: " << endl;
+	for(int i=0; i<size; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+
+
+
+	return 0;
 }
