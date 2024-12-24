@@ -1,3 +1,4 @@
+// Findout middle element in Stack(checked on compiler)
 #include<iostream>
 #include<stack>
 
@@ -7,39 +8,39 @@ void solve(stack<int> &st, int &pos, int &ans){
   // base case
   if(pos == 1){
     ans = st.top();
-    return;
+    return ;
   }
   // 1 case I will solve
   pos--;
-  int temp = st.pop();
+  int temp = st.top();
   st.pop();
-  // recursion call
+  // recursion
   solve(st, pos, ans);
-  // backtracking
-  st.push(temp)
+  // backtrack
+  st.push(temp);
+
 }
 
 int getMiddleElement(stack<int> &st){
   int size = st.size();
   if(st.empty()){
-    cout<<"Stack is empty:"<<endl;
+    cout<<"Stack is empty"<<endl;
+    return -1; 
   }
-  else(!st.empty()){
-    // stack is not empty
-    // odd
+  else{
+    // stack in not empty
     int pos = 0;
     if(size & 1){
-      pos = size/2 + 1;
+      // odd
+      pos = size/2 +1;
     }
     else{
       // even
       pos = size/2;
-    }
-
+    } 
     int ans = -1;
-    solve(st, pos, ans);
+    solve(st,pos, ans);
     return ans;
-
   }
 }
 
@@ -48,11 +49,12 @@ int main(){
   st.push(10);
   st.push(20);
   st.push(30);
-  st.push(40);
+  st.push(40); 
   st.push(50);
-  
-  int mid = getMiddleElement(st);
-  cout<<"middle element:"<<mid<<endl;
+  st.push(60);
 
-  return 0;
+  int mid = getMiddleElement(st);
+  cout<<"Middle element is:"<<mid<<endl;
+
+
 }
