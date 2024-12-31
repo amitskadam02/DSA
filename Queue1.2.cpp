@@ -1,8 +1,8 @@
+// Queue implementaion from scratch!
 #include<iostream>
-
 using namespace std;
 
-class Cqueue{
+class Queue{
     public:
     int *arr;
     int size;
@@ -10,7 +10,7 @@ class Cqueue{
     int rear;
     
     // ctor
-    Cqueue(int size){
+    Queue(int size){
         arr = new int[size];
         this->size = size;
         front = -1;
@@ -20,61 +20,79 @@ class Cqueue{
     // push
     void push(int val){
         // overflow
-        // empty : first element
-        // circular queue nature
-        // normal
-        if((front == 0 && rear == size-1) || (rear == front-1)){ // iss the second condition
-            cout<<"Overflow"<<endl;
+        if(rear == size-1){
+            cout<<"Overflow: Queue is full"<<endl;
         }
-        else if(front == -1 && rear == -1){ //not able to write thi contition
-            rear++;
+        else if (rear == -1 && front == -1){
+            // Queue is empty
+            // First element
             front++;
-            //front++;
-            arr[rear] = val;
-        }
-        else if(rear == size-1 && front != 0){
-            rear = 0;
+            rear++;
             arr[rear] = val;
         }
         else{
-            rear++;
+            // Nomal case
+            rear++; // made mistake here as arr[rear]++
             arr[rear] = val;
         }
     }
     
     // pop
     void pop(){
-        // underflow
-        // 1 element
-        // circular nature element
-        // normal
+        // Underflow
         if(front == -1 && rear == -1){
-            cout<<"Underflow"<<endl;
+            cout<<"Underflow: Queue is empty"<<endl;
         }
-        else if(front == rear){ // people forget to write this condition
-            arr[front] = -1;
-            front = -1;
+        else if(front == rear){
+            // one element is present
+            arr[rear] = -1;
             rear = -1;
-        }
-        else if(front == size-1){
-            // not able to think first time
-            arr[front] = -1;
-            front = 0;
+            front = -1;
         }
         else{
-            arr[front] = -1;
-            front++; 
+            // normal case
+            arr[front] = -1; // made mistake here
+            front++; // made mistake here rear--;
         }
     }
     
-    // size
-    int getSize(){
-        return rear-front+1;
+    bool isEmpty(){
+        if(front == -1 && rear == -1){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
-    // print
-    void print(){
-        cout<<"Printing Cqueue:";
-        cout<<"front: "<<front<<" "<<"rear: "<<rear<<endl;
+    
+    int getSize(){
+        if(front == -1 && rear == -1){
+            return 0;
+        }
+        else{
+            //cout<<"Size of queue:";
+            return rear-front+1;
+        }
+        
+    }
+    
+    int getFront(){
+        // underflow
+        if(front == -1){
+            cout<<"Queue is empty"<<endl;
+            return -1;
+        }
+        else{
+            return arr[front];
+        }
+    }
+    
+    // int getRaer(){
+    //     // HW
+    // }
+    
+    void print(){ // Not able to print first time.
+        cout<<"Queue is:";
         for(int i = 0; i < size; i++){
             cout<<arr[i]<<" ";
         }
@@ -83,48 +101,48 @@ class Cqueue{
     
 };
 int main(){
-    Cqueue q(5); // why it showing arr of 4 element only ?
+    // craete Queue
+    Queue q(5);
     q.print();
-    cout<<"Size of Cqueue is: "<<q.getSize()<<endl;
+    
     // push
     q.push(10);
     q.print();
+        q.push(20);
+    q.print();
+        q.push(30);
+    q.print();
+        q.push(40);
+    q.print();
+        q.push(50);
+    q.print();
+    
+    // size
+    cout<<"Size of queue is: "<<q.getSize()<<endl;
+    cout<<endl;
     
     // pop
     q.pop();
     q.print();
+        q.pop();
+    q.print();
+        q.pop();
+    q.print();
+        q.pop();
+    q.print();
+        q.pop();
+    q.print();
+        q.pop();
+    q.print();
     
-    // push
-    q.push(10);
-    q.print();
-    q.push(20);
-    q.print();
-    q.push(30);
-    q.print();
-    q.push(40);
-    q.print();
-    cout<<"Size of Cqueue is: "<<q.getSize()<<endl;
-    q.push(50);
-    q.print();
-    cout<<"Size of Cqueue is: "<<q.getSize()<<endl;
-    q.push(1000);
-    
+    // size
+    cout<<"Size of queue is: "<<q.getSize()<<endl;
+    cout<<"Check for Queue is empty or not:"<<q.isEmpty()<<endl;
     cout<<endl;
-    q.pop();
-    q.pop();
-    q.pop();
-    q.print();
     
     q.push(100);
     q.print();
-    q.push(200);
-    q.print();
-    q.push(300);
-    q.print();
-    q.push(400);
-    q.print();
-
-
-
+    cout<<"front is :"<<q.getFront()<<endl;
+    
     return 0;
 }
